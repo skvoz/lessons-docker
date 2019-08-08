@@ -1,3 +1,3 @@
 #HOWTO
 
-- docker run -d --name phpd -v "$PWD":/app -p 80:5000
+- docker run -d -p 5000:5000 -v "$(pwd)"/app:/app identicon
