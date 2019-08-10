@@ -1,10 +1,12 @@
-#!/bin/bash
-
+#!/bin/sh
 set -e
 
-if ["$ENV" = 'DEV']; then
-    echo 'Running Development Server'
-    exec php -S localhost:5000 '/app/identidock.php'
+PHP=php
+
+if [ "$ENV" = 'DEV' ]; then
+    echo "Running Development Server"
+    $PHP -S 0.0.0.0:5000 $(pwd)/identidock.php
 else
-    echo 'Running Production Server'
-    exec php -S localhost:5000 '/app/identidock.php'
+    echo "Running Production Server"
+    $PHP -S 0.0.0.0:5000 $(pwd)/identidock.php
+fi
