@@ -6,9 +6,17 @@
     
 - docker run -d  -p 5000:5000 -v "$(pwd)"/app:/app identidock
     > run container with volume
+
 - docker-compose : new mechanics
-    > 
-- > new command:
+    > fast version cli command
+
+- docker-compose -f docker-compose.dev.yml build --no-cache
+    > build dev container
+
+- docker-compose -f docker-compose.dev.yml up 
+    > run dev container
+        
+- new command:
     > RUN - run command
     > WORKDIR - default current dir for other command ( like CMD)
     > COPY - copy file to image

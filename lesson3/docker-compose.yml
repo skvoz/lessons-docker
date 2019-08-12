@@ -14,7 +14,7 @@ services:
       - ./nginx/core:/etc/nginx/conf.d
       - ./app:/app
       - ./logs:/var/log/nginx/
-#      - ./html:/usr/share/nginx/html/
+      - ./html:/usr/share/nginx/html/
     # Укажем зависимости
     links:
       - php

@@ -8,12 +8,27 @@ WORKDIR /app
 
 COPY app /app
 
-COPY cmd.sh /
+ADD composer.json app/composer.json
 
-RUN chmod +x /cmd.sh
+ADD composer.lock app/composer.lock
+
+#RUN mkdir /bin/sh
+#
+#RUN chown -R developer:developer /bin/sh
+
+COPY composer.phar /bin/
+
+
+#USER root
+
+#RUN composer dump-autoload --no-scripts --no-dev --optimize
+
+USER developer
+
+RUN composer install
+
 
 EXPOSE 5000
 
-USER developer
 
 CMD ["php", "-S", "0.0.0.0:5000", "index.php"]
