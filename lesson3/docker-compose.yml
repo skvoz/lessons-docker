@@ -1,11 +1,6 @@
 version: '3.3'
 services:
-  identicon:
-    links:
-      -
   nginx:
-    environment:
-      - ENV=${ENV}
     # Пропишем какой образ мы хотим использовать
     image: nginx:latest
     # Назовем свой контейнер по красивому
@@ -19,17 +14,11 @@ services:
       - ./nginx/core:/etc/nginx/conf.d
       - ./app:/app
       - ./logs:/var/log/nginx/
-      - ./html:/usr/share/nginx/html/
+#      - ./html:/usr/share/nginx/html/
     # Укажем зависимости
     links:
-      - php-$ENV
-  php-dev:
-    build: ./php_dev
-    container_name: php-fpm-dev
-    volumes:
-      - ./app:/app
+      - php
   php:
-
     # Билдим с помощью dockerfile указав директорию где он лежит
     build: ./php
     container_name: php-fpm

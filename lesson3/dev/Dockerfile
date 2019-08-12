@@ -16,4 +16,4 @@ EXPOSE 5000
 
 USER developer
 
-CMD ["/cmd.sh"]
+CMD ["php", "-S", "0.0.0.0:5000", "index.php"]

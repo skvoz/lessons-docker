@@ -1,0 +1,11 @@
+version: '3.3'
+services:
+  identicon:
+    build:
+      context: .
+      dockerfile: ./dev/Dockerfile
+    ports:
+      - "5000:5000"
+      - "443:44380"
+    volumes:
+      - ./app:/app
