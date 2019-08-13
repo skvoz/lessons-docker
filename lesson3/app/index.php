@@ -1,15 +1,12 @@
 <?php
-echo '<pre>';
-var_dump(scandir(__DIR__));
-var_dump(scandir(__DIR__ . '/..'));
-echo '</pre>';
+
 require __DIR__ . '/vendor/autoload.php';
 
 $identicon = new \Identicon\Identicon();
+$foo = 'Hello world!';
 
-$identicon->displayImage('foo');
-
-$imageDataUri = $identicon->getImageDataUri('bar');
-
+$imageDataUri = $identicon->getImageDataUri($foo);
 ?>
+<h1><?php echo $foo?></h1>
+
 <img src="<?php echo $imageDataUri; ?>" alt="bar Identicon" />

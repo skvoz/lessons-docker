@@ -4,9 +4,15 @@ services:
     build:
       context: .
       dockerfile: ./dev/Dockerfile
+    volumes:
+      - ./app:/app
     ports:
       - "5000:5000"
       - "443:44380"
+    links:
+      - composer
+  composer:
+    image: composer:latest
     volumes:
       - ./app:/app
-      - /app/vendor
+    command: 'composer install'

@@ -1,3 +1,6 @@
 .idea/*
 lesson*/logs/*
 lesson*/.env
+lesson*/.env
+lesson*/app/vendor/*
+lesson*/app/composer.lock
