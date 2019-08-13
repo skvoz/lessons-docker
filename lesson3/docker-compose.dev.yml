@@ -9,3 +9,4 @@ services:
       - "443:44380"
     volumes:
       - ./app:/app
+      - /app/vendor

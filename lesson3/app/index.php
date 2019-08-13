@@ -1,19 +1,15 @@
 <?php
-
+echo '<pre>';
+var_dump(scandir(__DIR__));
+var_dump(scandir(__DIR__ . '/..'));
+echo '</pre>';
 require __DIR__ . '/vendor/autoload.php';
 
-use Bitverse\Identicon\Identicon;
-use Bitverse\Identicon\Color\Color;
-use Bitverse\Identicon\Generator\RingsGenerator;
-use Bitverse\Identicon\Preprocessor\MD5Preprocessor;
+$identicon = new \Identicon\Identicon();
 
-$generator = new RingsGenerator();
-$generator->setBackgroundColor(Color::parseHex('#EEEEEE'));
+$identicon->displayImage('foo');
 
-$identicon = new Identicon(new MD5Preprocessor(), $generator);
+$imageDataUri = $identicon->getImageDataUri('bar');
 
-$icon = $identicon->getIcon('hello world');
-
-file_put_contents('helloworld.svg', $icon);
-
-echo 'Hello World! bbb!';
+?>
+<img src="<?php echo $imageDataUri; ?>" alt="bar Identicon" />

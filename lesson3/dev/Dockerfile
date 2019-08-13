@@ -4,31 +4,23 @@ FROM php:7.2-fpm-alpine
 # -G add to group
 RUN addgroup developer && adduser -D -G developer developer
 
-WORKDIR /app
+RUN apk update && apk add build-base
+
+RUN apk add zlib-dev git zip \
+  && docker-php-ext-install zip
+
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 COPY app /app
 
-ADD composer.json app/composer.json
+WORKDIR /app
 
-ADD composer.lock app/composer.lock
-
-#RUN mkdir /bin/sh
-#
-#RUN chown -R developer:developer /bin/sh
-
-COPY composer.phar /bin/
-
-
-#USER root
-
-#RUN composer dump-autoload --no-scripts --no-dev --optimize
+RUN chown -R developer:developer /app
 
 USER developer
 
-RUN composer install
+RUN composer install --prefer-source --no-interaction
 
-
-EXPOSE 5000
 
 
 CMD ["php", "-S", "0.0.0.0:5000", "index.php"]
