@@ -11,8 +11,13 @@ services:
       - "443:44380"
     links:
       - composer
+      - dnmonster
   composer:
     image: composer:latest
     volumes:
       - ./app:/app
-    command: 'composer install'
+    command: bash -c 'composer dump-autoload --no-scripts && composer update'
+  dnmonster:
+    image: amouat/dnmonster:1.0
+    ports:
+      - "9991:8080"

@@ -1,6 +1,8 @@
 {
   "require": {
     "php": ">=7.2",
-    "yzalis/identicon": "*"
+    "yzalis/identicon": "*",
+    "silex/silex": "^2.0",
+    "guzzlehttp/guzzle": "*"
   }
 }

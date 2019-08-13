@@ -7,3 +7,6 @@
 ##Note
 - in all lessons I will use one repository skvoz\\<bla-bla>, for example in first lesson skvoz\php-image. For every next
 lesson repository will be change his  name. 
+
+###lessons for book 
+https://github.com/dlbewley/identidock
