@@ -3,6 +3,7 @@
     "php": ">=7.2",
     "yzalis/identicon": "*",
     "silex/silex": "^2.0",
-    "guzzlehttp/guzzle": "*"
+    "guzzlehttp/guzzle": "*",
+    "predis/predis": "*"
   }
 }

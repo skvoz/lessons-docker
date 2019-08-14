@@ -4,17 +4,15 @@ use Symfony\Component\HttpFoundation\Response;
 
 require __DIR__ . '/vendor/autoload.php';
 
-ini_set('display_errors', 1);
-error_reporting(-1);
-
 $identicon = new \Identicon\Identicon();
-
-//$imageDataUri = $identicon->getImageDataUri($foo);
 
 $app = new Silex\Application();
 
 $app['debug'] = true;
 
+$salt = '1111';
+
+$defaultName = 'John Dow';
 
 $html = <<<HTML
 <html>
@@ -23,28 +21,56 @@ $html = <<<HTML
 </head>
 <body>
     <form method="POST">
-        Hello <input type="text" name="name" value=""/>
+        Hello <input type="text" name="name" value="{name}"/>
         <input type="submit" value="submit"/>
     </form>
     <p>You look like a:</p>
     
-    <img src="/foo/bar.im"/>
+    <img src="/monster/{nameHash}"/>
 </body>
 </html>
 HTML;
 
 
+$redis = new Predis\Client('tcp://redis:6379');
 
-$app->get('/', function ($name = null) use ($app, $html) {
+$app->get('/', function () use ($app, $html, $defaultName, $salt) {
+    $name = $defaultName;
+    $hasName = md5($salt . $name);
+    $html = get_content($html, [
+        'name' => $name,
+        'nameHash' => $hasName
+    ]);
+
     return $html;
 });
 
-$app->get('monster/{name}', function($name) use ($app, $html) {
-    $client = new \GuzzleHttp\Client();
-    $request = $client->get('http://0fd671a5ac41:8080/monster/' . $app->escape($name) . '?size=80');
-    $body = $request->getBody();
-    $imageBase64 = $body->getContents();
+$app->post('/', function() use ($app, $html, $defaultName, $salt) {
+    $name = isset($_POST['name']) ? $_POST['name'] : $defaultName;
+    $hasName = md5($salt . $name);
+    $html = get_content($html, [
+        'name' => $name,
+        'nameHash' => $hasName
+    ]);
+
+    return $html;
+});
+
+$app->get('monster/{name}', function($name) use ($app, $html, $redis) {
+    $imageBase64 = $redis->get($name);
+    if (!$imageBase64) {
+
+        $client = new \GuzzleHttp\Client();
+        $request = $client->get('http://dnmonster:8080/monster/' . $app->escape($name) . '?size=80');
+        $body = $request->getBody();
+        $imageBase64 = $body->getContents();
+
+        $redis->set($name, $imageBase64);
+    }
+
     $response = new Response($imageBase64, 200, ['content-type' => 'image/png'] );
+
+    return $response;
 });
 
 $app->run();
@@ -54,3 +80,12 @@ $app->error(function(\Exception $e) use ($app) {
     print $e->getMessage(); // Do something with $e
 });
 
+function get_content($template, $data)
+{
+    foreach($data as $key => $value)
+    {
+        $template = str_replace('{'.$key.'}', $value, $template);
+    }
+
+    return $template;
+}

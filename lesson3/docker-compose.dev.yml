@@ -1,5 +1,6 @@
 version: '3.3'
 services:
+#  web
   identidock:
     build:
       context: .
@@ -9,10 +10,10 @@ services:
     ports:
       - "5000:5000"
       - "44380:443"
-      - "9991:8080"
     links:
       - composer
       - dnmonster
+      - redis
   composer:
     image: composer:latest
     volumes:
@@ -22,3 +23,5 @@ services:
     image: amouat/dnmonster:1.0
     ports:
       - "9991:8080"
+  redis:
+    image: redis:3.0

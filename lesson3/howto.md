@@ -1,4 +1,4 @@
-##HOWTO: add "production" web server (nginx), and some containers. First step to microservices
+##HOWTO: add "develop" web server, and some containers. First step to microservices
 
 
 - docker run -p 5000:5000  identidock
@@ -26,3 +26,8 @@
     > CMD - params for ENTRYPOINT, if only CMD , executed app
     > VOLUME - file or dir as (tom ;))
          
+##Note
+
+Base "web" service now base at alpine image.  
+
+In plan , add production part , now is not working        
