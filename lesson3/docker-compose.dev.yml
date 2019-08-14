@@ -1,6 +1,6 @@
 version: '3.3'
 services:
-  identicon:
+  identidock:
     build:
       context: .
       dockerfile: ./dev/Dockerfile
@@ -8,7 +8,8 @@ services:
       - ./app:/app
     ports:
       - "5000:5000"
-      - "443:44380"
+      - "44380:443"
+      - "9991:8080"
     links:
       - composer
       - dnmonster

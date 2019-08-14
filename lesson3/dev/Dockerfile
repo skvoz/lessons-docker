@@ -6,7 +6,7 @@ RUN addgroup developer && adduser -D -G developer developer
 
 RUN apk update && apk add build-base
 
-RUN apk add zlib-dev php php-cli git zip php-gd
+RUN apk add zlib-dev php php-cli git zip php-gd bash curl
 
 #look if need new libs
 #RUN apk search php7
