@@ -4,3 +4,4 @@ lesson*/.env
 lesson*/.env
 lesson*/app/vendor/*
 lesson*/app/composer.lock
+registry_certs/domain.key
