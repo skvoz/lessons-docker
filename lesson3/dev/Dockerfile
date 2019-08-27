@@ -13,7 +13,7 @@ RUN apk add zlib-dev php php-cli git zip php-gd bash curl
 
 COPY app /app
 
-RUN la -la
+RUN ls -la
 
 WORKDIR /app
 
