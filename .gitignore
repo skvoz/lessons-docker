@@ -6,3 +6,4 @@ lesson*/app/vendor/*
 lesson*/app/composer.lock
 registry_certs/domain.key
 lesson4/config.yml
+
