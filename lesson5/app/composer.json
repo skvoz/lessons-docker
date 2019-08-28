@@ -1,0 +1,16 @@
+{
+  "require": {
+    "php": ">=7.2",
+    "yzalis/identicon": "*",
+    "silex/silex": "^2.0",
+    "guzzlehttp/guzzle": "*",
+    "predis/predis": "*",
+    "phpunit/phpunit": "5.6"
+  },
+  "autoload": {
+    "psr-4": {
+      "Tests\\": "tests",
+      "App\\": "class"
+    }
+  }
+}
