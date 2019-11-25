@@ -18,8 +18,8 @@ services:
     image: composer:latest
     volumes:
       - ./app:/app
-#    command: bash -c 'composer dump-autoload --no-scripts && composer update'
-    command: bash -c 'composer dump-autoload --no-scripts && composer install'
+#    command: bash -c 'composer dump-autoload --no-scripts && composer install'
+#    command: install
   dnmonster:
     image: amouat/dnmonster:1.0
     ports:
