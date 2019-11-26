@@ -1,0 +1,22 @@
+version: '3.3'
+services:
+  identidock: #name container
+    build: .  #context
+    ports:
+      - "6000:6000"
+#    environment: #var
+#      ENV: DEV
+    volumes:
+      - ./app:/app
+    networks:
+      - test_network
+  composer:
+    image: composer:latest
+    volumes:
+      - ./app:/app
+    command:  install --no-dev
+    networks:
+      - test_network
+# networks
+networks:
+  test_network:

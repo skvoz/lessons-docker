@@ -4,9 +4,8 @@ services:
     build: .  #context
     ports:
       - "5000:5000"
-      - "6000:6000"
     environment: #var
-      ENV: DEV
+      ENV: UNIT
     volumes:
       - ./app:/app
     networks:
