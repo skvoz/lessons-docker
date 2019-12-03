@@ -12,11 +12,13 @@ services:
       - test_network
   composer:
     image: composer:latest
-    volumes:
-      - ./app:/app
     command: install
     networks:
       - test_network
+  phpunit:
+    image: phpunit:latest
+    networks:
+    - test_network
 # networks
 networks:
   test_network:
