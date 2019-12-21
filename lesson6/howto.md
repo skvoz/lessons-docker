@@ -1,6 +1,7 @@
 ##HOWTO: install jenkins, deploy with jenkins
 
 ####create image
+- now app in another repository https://github.com/skvoz/identidock
 - docker build -t identidock .
 - docker run --rm -it -e ENV=UNIT -p 5000:5000 -v $pwd:/app identidock        
     > run test
@@ -8,7 +9,7 @@
     > run prod
    
 ###install jenkins
- - get Dockerfile from https://github.com/liufan-hana/identijenk
+ - pull Dockerfile from https://github.com/liufan-hana/identijenk
  - $ docker build -t identijenk .
  - $ docker run -v /var/run/docker.sock:/var/run/docker.sock identijenk bash 
  - in container $ docker ps , you must see docker ID
@@ -22,12 +23,22 @@
  - settings jenkins 
     Add build step >> execute shell >> command:
     ```
+    #default arguments
     COMPOSE_ARGS=" -f jenkins.yml -p jenkins"
+    #drop old containers
     sudo docker-compose $COMPOSE_ARGS stop
     sudo docker-compose $COMPOSE_ARGS rm --force -v
+    
+    #run composer 
+    sudo docker-compose $COMPOSE_ARGS composer install 
+    
+    #build system
     sudo docker-compose $COMPOSE_ARGS build --no-cache
     sudo docker-compose $COMPOSE_ARGS up -d
+    #unit testing
     sudo docker-compose $COMPOSE_ARGS run --no-deps --rm -e ENV=UNIT identidock ERR=$?
+    
+    #after unit testing omg ) 
     if [$ERR -eq 0]; then
      IP=$(sudo docker inspect -f {{.NetworkSettings.IPAddress}}
      	jenkins_identidock_1)
@@ -38,8 +49,10 @@
      fi
     fi
     
+    #stop system
     sudo docker-compose $COMPOSE_ARGS stop
     sudo docker-compose $COMPOSE_ARGS rm --force -v 
+     
     
     return $ERR
 
