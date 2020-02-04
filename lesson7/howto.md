@@ -7,7 +7,7 @@ Need:
 
 ##Install 
 - nginx proxy app 
-    > cd identiproxy && docker build --no-cache -t identiproxy:0.1 .
+    > cd identiproxy && docker build --no-cache -t proxy:0.1 .
 - identidock app
     > git clone https://github.com/skvoz/identidock
     > cd identidock && docker-compose -f prod.yml up -d

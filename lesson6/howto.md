@@ -30,7 +30,7 @@
     sudo docker-compose $COMPOSE_ARGS rm --force -v
     
     #run composer 
-    sudo docker-compose $COMPOSE_ARGS composer install 
+    #sudo docker-compose $COMPOSE_ARGS run composer cd /app && composer install 
     
     #build system
     sudo docker-compose $COMPOSE_ARGS build --no-cache
@@ -44,7 +44,16 @@
      	jenkins_identidock_1)
      CODE=$(curl -sL -w "%{http_code}" $IP:9090/monster/bla -o /dev/null) || true
      if [$CODE -ne 200]; then
-     	echo "Site returned" $CODE
+        echo "Test passed - Tagging"
+        HASH=$(git rev-parse --short HEAD)
+        sudo docker tag jenkins_identidock localhost:5043/identidock:$HASH
+        sudo docker tag jenkins_identidock localhost:5043/identidock:newest
+        echo "Pushing"
+        sudo docker login -u testuser -p testpassword registryv2:5043
+        sudo docker push localhost:5043/identidock:$HASH
+        sudo docker push localhost:5043/identidock:newest
+     else
+        echo "Site returned" $CODE
         ERR=1
      fi
     fi
@@ -53,8 +62,12 @@
     sudo docker-compose $COMPOSE_ARGS stop
     sudo docker-compose $COMPOSE_ARGS rm --force -v 
      
-    
     return $ERR
 
 
 ```
+
+
+###actions 
+- search tags $ docker images --no-trunc | grep $(docker inspect -f {{.Id}} localhost:5043/identidock:newest)
+- you must drop all image older then some date

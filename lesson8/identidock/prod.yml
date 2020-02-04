@@ -1,0 +1,35 @@
+proxy:
+  image: proxy:1.0
+  links:
+    - identidock
+  ports:
+    - "81:81"
+  environment:
+    - NGINX_HOST=localhost
+    - NGINX_PROXY=http://identidock:5000
+identidock:
+  build: .
+  ports:
+  - "5001:5001"
+  - "44380:443"
+  environment:
+    ENV: PROD
+  volumes:
+  - $PWD/app:/app
+  links:
+  - dnmonster
+  - redis
+
+dnmonster:
+  image: amouat/dnmonster:1.0
+  ports:
+  - "9991:8080"
+
+redis:
+  image: redis:3.0
+
+composer:
+  image: composer:latest
+  volumes:
+  - $PWD/app:/app
+  command: 'true'
